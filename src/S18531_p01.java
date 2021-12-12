@@ -268,6 +268,89 @@ public class S18531_p01 {
                    }
                 }
 
+                if(correctMove)
+                {
+                    if(isWhiteTurn[0])
+                    {
+                        if(finalRow == 1)
+                        {
+                            System.out.println("Promocja piona. Wybierz:");
+                            System.out.println("1. Wieza, 2. Krolowa, 3. Laufer, 4. Skoczek");
+                            Scanner scanner = new Scanner(System.in);
+                            int decision = scanner.nextInt();
+                            switch (decision)
+                            {
+                                case 1:{
+                                    tab[finalRow][finalColumn] = "|WW|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                case 2:{
+                                    tab[finalRow][finalColumn] = "|WQ|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                case 3:{
+                                    tab[finalRow][finalColumn] = "|WL|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                case 4:{
+                                    tab[finalRow][finalColumn] = "|WS|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                default:
+                                {
+                                    System.out.println("Zla opcja");
+                                    correctMove = false;
+                                }
+                            }
+
+                            return tab;
+                        }
+                    }else
+                    {
+                        if(finalRow == 8)
+                        {
+                            System.out.println("Promocja piona. Wybierz:");
+                            System.out.println("1. Wieza, 2. Krolowa, 3. Laufer, 4. Skoczek");
+                            Scanner scanner = new Scanner(System.in);
+                            int decision = scanner.nextInt();
+                            switch(decision)
+                            {
+                                case 1:
+                                {
+                                    tab[finalRow][finalColumn] = "|BW|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                case 2:{
+                                    tab[finalRow][finalColumn] = "|BQ|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                case 3:{
+                                    tab[finalRow][finalColumn] = "|BL|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                case 4:{
+                                    tab[finalRow][finalColumn] = "|BS|";
+                                    tab[startRow][startColumn] = "|  |";
+                                    break;
+                                }
+                                default:
+                                {
+                                    System.out.println("Zla opcja");
+                                    correctMove = false;
+                                }
+                            }
+                            return tab;
+                        }
+                    }
+                }
+
                 break;
             }
 
@@ -366,6 +449,13 @@ public class S18531_p01 {
                     else
                         correctMove = false;
                 }
+
+                if(sprawdzSzach(tab, finalRow, finalColumn, isWhiteTurn))
+                {
+                    System.out.println("Szach. Niedozwolony ruch");
+                    correctMove = false;
+                }
+
 
                 break;
             }
@@ -601,7 +691,6 @@ public class S18531_p01 {
                 System.out.println("Szach mat. Król poległ");
                 System.exit(0);
             }
-
             isWhiteTurn[0] = !isWhiteTurn[0];
         } else
         {
@@ -720,4 +809,178 @@ public class S18531_p01 {
            }
        }
     }
+    public static boolean sprawdzSzach(String[][] tab, int finalRow, int finalColumn, boolean[] isWhiteTurn)
+    {
+
+
+        if(isWhiteTurn[0])
+        {
+            if(tab[finalRow - 1][finalColumn - 1].equals("|BP|") || tab[finalRow - 1][finalColumn + 1].equals("|BP|") || tab[finalRow + 1][finalColumn - 1].equals("|BP|") || tab[finalRow + 1][finalColumn + 1].equals("|BP|"))
+                return true;
+
+            int rowHorizontal = finalRow;
+            int columnVertical = finalColumn;
+
+            while(columnVertical > 0)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BW|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            while(columnVertical <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BW|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                columnVertical++;
+            }
+
+            columnVertical = finalColumn;
+            while(rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BW|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                rowHorizontal++;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(rowHorizontal > 0)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BW|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                rowHorizontal--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical > 0 && rowHorizontal > 0)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BL|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                rowHorizontal--;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical > 0 && rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BL|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                rowHorizontal++;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical > 0 && rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BL|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                rowHorizontal++;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical <= 8 && rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|BL|") || tab[rowHorizontal][columnVertical].equals("|BQ|") || tab[rowHorizontal][columnVertical].equals("|BK|"))
+                    return true;
+                rowHorizontal++;
+                columnVertical++;
+            }
+
+            if(tab[finalRow - 1][finalColumn - 2].equals("|BS|") || tab[finalRow - 2][finalColumn - 1].equals("|BS|") || tab[finalRow + 1][finalColumn - 2].equals("|BS|") || tab[finalRow + 2][finalColumn - 1].equals("|BS|") || tab[finalRow - 2][finalColumn + 1].equals("|BS|") || tab[finalRow - 1][finalColumn + 2].equals("|BS|") || tab[finalRow + 1][finalColumn + 2].equals("|BS|") || tab[finalRow + 2][finalColumn + 1].equals("|BS|"))
+                return true;
+        }
+        else
+        {
+            if(tab[finalRow - 1][finalColumn - 1].equals("|WP|") || tab[finalRow - 1][finalColumn + 1].equals("|WP|") || tab[finalRow + 1][finalColumn - 1].equals("|WP|") || tab[finalRow + 1][finalColumn + 1].equals("|WP|"))
+                return true;
+
+            int rowHorizontal = finalRow;
+            int columnVertical = finalColumn;
+
+            while(columnVertical > 0)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WW|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            while(columnVertical <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WW|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                columnVertical++;
+            }
+
+            columnVertical = finalColumn;
+            while(rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WW|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                rowHorizontal++;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(rowHorizontal > 0)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WW|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                rowHorizontal--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical > 0 && rowHorizontal > 0)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WL|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                rowHorizontal--;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical > 0 && rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WL|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                rowHorizontal++;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical > 0 && rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WL|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                rowHorizontal++;
+                columnVertical--;
+            }
+
+            columnVertical = finalColumn;
+            rowHorizontal = finalRow;
+            while(columnVertical <= 8 && rowHorizontal <= 8)
+            {
+                if(tab[rowHorizontal][columnVertical].equals("|WL|") || tab[rowHorizontal][columnVertical].equals("|WQ|") || tab[rowHorizontal][columnVertical].equals("|WK|"))
+                    return true;
+                rowHorizontal++;
+                columnVertical++;
+            }
+
+            if(tab[finalRow - 1][finalColumn - 2].equals("|WS|") || tab[finalRow - 2][finalColumn - 1].equals("|WS|") || tab[finalRow + 1][finalColumn - 2].equals("|WS|") || tab[finalRow + 2][finalColumn - 1].equals("|WS|") || tab[finalRow - 2][finalColumn + 1].equals("|WS|") || tab[finalRow - 1][finalColumn + 2].equals("|WS|") || tab[finalRow + 1][finalColumn + 2].equals("|WS|") || tab[finalRow + 2][finalColumn + 1].equals("|WS|"))
+                return true;
+        }
+        return false;
+        }
 }
+
+
